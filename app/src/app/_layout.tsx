@@ -8,6 +8,7 @@ import { NunitoSans_800ExtraBold } from "@expo-google-fonts/nunito-sans/800Extra
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StoreProvider } from "../data/store";
 import { Loading } from "../components/ui";
+import { AuthProvider } from "../auth/session";
 export default function Layout() {
   const [loaded, error] = useFonts({
     Fredoka_500Medium,
@@ -21,16 +22,18 @@ export default function Layout() {
       {!loaded && !error ? (
         <Loading />
       ) : (
-        <StoreProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: "#FFF9F1" },
-              animation: "fade",
-              title: "Mi amigo invisible",
-            }}
-          />
-        </StoreProvider>
+        <AuthProvider>
+          <StoreProvider>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "#FFF9F1" },
+                animation: "fade",
+                title: "Mi amigo invisible",
+              }}
+            />
+          </StoreProvider>
+        </AuthProvider>
       )}
     </SafeAreaProvider>
   );

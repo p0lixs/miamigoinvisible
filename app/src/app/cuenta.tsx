@@ -8,30 +8,63 @@ import {
   Card,
   Chip,
   Heading,
+  Loading,
   Notice,
   s,
 } from "../components/ui";
+import { useAuth } from "../auth/session";
 export default function Account() {
+  const { session, ready, busy, error, signOut } = useAuth();
+  const fullName: unknown = session?.user.user_metadata.full_name;
+  const name =
+    typeof fullName === "string" && fullName.trim() ? fullName : "Tu cuenta";
   return (
     <Shell>
       <Heading>Tu rincón personal</Heading>
-      <Card style={{ maxWidth: 650, width: "100%" }}>
-        <View style={s.row}>
-          <Avatar name="Ana" size={58} />
-          <View style={{ gap: 4 }}>
-            <Heading size={24}>Ana · cuenta de ejemplo</Heading>
-            <Body muted>ana@example.com</Body>
+      {!ready ? (
+        <Loading />
+      ) : session ? (
+        <Card style={{ maxWidth: 650, width: "100%" }}>
+          <View style={[s.row, { flexWrap: "wrap" }]}>
+            <Avatar name={name} size={58} />
+            <View style={{ gap: 4, flexShrink: 1 }}>
+              <Heading size={24}>{name}</Heading>
+              <Body muted>{session.user.email || "Cuenta de Google"}</Body>
+            </View>
           </View>
-        </View>
-        <Chip>Vista previa sin sesión real</Chip>
-        <Body muted>
-          Los borradores y deseos de texto que guardes se conservan en este
-          dispositivo. Las fotografías solo duran esta sesión.
-        </Body>
-        <Button onPress={() => router.push("/acceso")}>
-          Ver opciones de inicio de sesión
-        </Button>
-      </Card>
+          <Chip tone="green">Sesión iniciada con Google</Chip>
+          <Body muted>
+            Tu sesión se conserva en este navegador o dispositivo. El guardado
+            de sorteos en tu cuenta estará disponible en el siguiente paso.
+          </Body>
+          {error && <Notice error>{error}</Notice>}
+          <Button
+            variant="secondary"
+            disabled={busy}
+            onPress={() => void signOut()}
+          >
+            {busy ? "Cerrando sesión…" : "Cerrar sesión en este dispositivo"}
+          </Button>
+        </Card>
+      ) : (
+        <Card style={{ maxWidth: 650, width: "100%" }}>
+          <View style={s.row}>
+            <Avatar name="Ana" size={58} />
+            <View style={{ gap: 4 }}>
+              <Heading size={24}>Ana · cuenta de ejemplo</Heading>
+              <Body muted>ana@example.com</Body>
+            </View>
+          </View>
+          <Chip>Vista previa sin sesión real</Chip>
+          <Body muted>
+            Los borradores y deseos de texto que guardes se conservan en este
+            dispositivo. Las fotografías solo duran esta sesión.
+          </Body>
+          <Button onPress={() => router.push("/acceso")}>
+            Ver opciones de inicio de sesión
+          </Button>
+        </Card>
+      )}
       <Card style={{ maxWidth: 650, width: "100%" }}>
         <Heading size={24}>Un extra de ilusión</Heading>
         <Body muted>
@@ -48,8 +81,8 @@ export default function Account() {
       </Card>
       <Notice>
         El borrado de cuenta y la restauración de compras se habilitarán al
-        conectar los servicios reales. Esta vista no crea una cuenta ni procesa
-        datos en Supabase.
+        completar esos servicios. Los sorteos y deseos siguen siendo ejemplos
+        locales, separados de tu sesión de Google.
       </Notice>
     </Shell>
   );

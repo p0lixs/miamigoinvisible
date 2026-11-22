@@ -41,6 +41,9 @@ No fijar una fecha pública antes de conocer el alcance de los pagos y los plazo
 ## Situación actual
 
 - Completado: análisis inicial, documentación, copia local de Taste Skill y primera base de aplicación en `app/` con pantallas y almacenamiento de ejemplo.
-- Verificado: TypeScript, lint, cuatro pruebas del dominio, exportación JavaScript para web, Android e iOS, rutas HTTP y versiones compatibles con Expo.
+- Infraestructura: proyectos Supabase y Vercel creados, URL proporcionadas, web con respuestas HTTP 200 y API pública de Supabase Auth accesible. El usuario confirma OAuth y retornos configurados; Google habilitado según la consulta pública. Pendientes variables y despliegue del código nuevo en Vercel, región y reglas de datos.
+- Implementado en local: cliente Supabase, sesión con Google y PKCE, retorno, recuperación y cierre; variables locales ignoradas por Git. Pendiente de configurar el proveedor y publicar el código.
+- Verificado: TypeScript, lint, ocho pruebas del dominio y autenticación, exportación web y consultas HTTP. La exportación de la base anterior para Android e iOS no valida el nuevo acceso en dispositivos.
 - Pendiente: revisión visual, pruebas en dispositivos, decisiones detalladas y prueba de autenticación real.
-- No iniciado: migraciones Supabase, integraciones de autenticación, generación y correos reales, compras y despliegues.
+- No iniciado: migraciones Supabase, generación y correos reales, invitados verificados y compras.
+- Siguiente hito propuesto: añadir las variables de Vercel, publicar el código de acceso y probar inicio, recuperación y cierre de sesión con Google real. A continuación, persistir borradores con permisos por organizador y verificar aislamiento entre dos cuentas. Mantener los datos de ejemplo separados de las cuentas reales.

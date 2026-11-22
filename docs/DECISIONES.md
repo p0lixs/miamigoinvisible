@@ -29,6 +29,8 @@ Fecha inicial: 21 de noviembre de 2026.
 | D21 | Las listas de deseos y su compra permanente se incluyen desde el primer lanzamiento público |
 | D22 | El usuario solo tiene la cuenta Supabase; crear un proyecto de desarrollo nuevo para la aplicación |
 | D23 | Repositorio del proyecto: `https://github.com/p0lixs/miamigoinvisible.git` |
+| D24 | El usuario confirma que ya ha creado los proyectos de Supabase y Vercel; quedan por verificar la configuración y la conexión con la aplicación |
+| D25 | URL proporcionadas: web `https://miamigoinvisible.vercel.app` y Supabase `https://osuagtuwrgohzrnmrgel.supabase.co`; Publishable key recibida y guardada fuera de Git |
 
 ## Propuestas técnicas
 
@@ -61,11 +63,14 @@ La primera base en `app/` usa euros, fecha opcional y listas de deseos vacías a
 | Antes de cerrar la copia | ¿Se copian también las listas de deseos? | No copiar contenido ni fotos de los participantes por defecto |
 | Antes de habilitar imágenes | ¿Límites de fotos y avisos al cambiar deseos? | Fijar cuotas de tamaño y cantidad; avisos aún no definidos |
 | Antes de publicar | ¿Borrado, conservación de grupos y cuentas? | Política explícita con tratamiento de grupos activos |
-| Antes de crear infraestructura | ¿Organización y región del nuevo proyecto Supabase? | Consultar las organizaciones disponibles tras conectar la integración; no elegir costes sin revisarlos |
+| Antes de validar el acceso | ¿Variables de Vercel y código publicados? ¿Región de Supabase elegida? | Google OAuth y retornos configurados según el usuario; Google habilitado según la API pública. Frankfurt y ajustes de tablas fueron recomendaciones, no configuración verificada |
 | Antes de las tiendas | ¿Territorios, idiomas, público y fecha objetivo? | Prototipo en español, sin asumir todavía mercados ni edad |
 
 ## Historial
 
+- 22 de noviembre de 2026: el usuario confirma completar la configuración de Google OAuth, el proveedor de Supabase y las URL de retorno. Una nueva consulta pública de Auth confirma Google habilitado. Pendientes las variables en Vercel, la publicación del código local y la validación del acceso con una cuenta real; no basta con redesplegar la versión anterior.
+- 22 de noviembre de 2026: recibidas URL y Publishable key. Comprobadas respuestas HTTP 200 en `/` y `/acceso` de Vercel y acceso a los ajustes públicos de Supabase Auth, que indican Google desactivado. Implementado acceso con PKCE, recuperación y cierre de sesión en el código local, separado de los datos de la demo. Preparada la guía de configuración con retornos concretos. No se han modificado ajustes remotos, creado usuarios, aplicado migraciones ni desplegado estos cambios.
+- 22 de noviembre de 2026: el usuario confirma la creación de los proyectos Supabase y Vercel. Se propone como siguiente hito verificar el despliegue, integrar Google y probar las sesiones; después, persistir borradores con permisos por organizador. No se han consultado los proyectos remotos ni aplicado migraciones. Las integraciones de Supabase y Vercel no están instaladas en esta sesión.
 - 22 de noviembre de 2026: vinculado `origin` al repositorio GitHub del usuario, con rama local `main` y raíz única para documentación y aplicación. La consulta del remoto no devuelve ramas publicadas. El historial inicial de Expo se conserva en una copia local verificada mediante SHA256; no se han creado commits ni publicado archivos.
 - 21 de noviembre de 2026: confirmado que no hay proyecto Supabase y que debe crearse uno de desarrollo. Se ha localizado la integración, todavía sin instalar ni conectar; no se ha creado infraestructura.
 - 21 de noviembre de 2026: creada la primera base Expo y el prototipo local con datos ficticios, asistente de creación, excepciones, copia, escena de resultado y deseos. Documentados los supuestos provisionales y las integraciones pendientes; sin despliegue ni operaciones reales.

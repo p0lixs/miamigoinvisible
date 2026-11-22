@@ -13,6 +13,7 @@ import { Icon, type IconName } from "./Icon";
 import { Avatar, Body } from "./ui";
 import { useStore } from "../data/store";
 import type { ReactNode } from "react";
+import { useAuth } from "../auth/session";
 const links: { label: string; path: string; icon: IconName }[] = [
   { label: "Mis sorteos", path: "/", icon: "gift" },
   { label: "Mis deseos", path: "/deseos", icon: "heart" },
@@ -58,6 +59,8 @@ export function Shell({ children }: { children: ReactNode }) {
   const path = usePathname();
   const insets = useSafeAreaInsets();
   const { storageError } = useStore();
+  const { session } = useAuth();
+  const accountName = session ? "Mi cuenta" : "Ana · demo";
   return (
     <View
       style={{
@@ -83,7 +86,7 @@ export function Shell({ children }: { children: ReactNode }) {
             textAlign: "center",
           }}
         >
-          VISTA PREVIA · Datos de ejemplo · Sin envíos ni cobros reales
+          DEMO · Sorteos y deseos locales de ejemplo · Sin envíos ni cobros
         </Text>
       </View>
       <View style={{ flex: 1, flexDirection: "row" }}>
@@ -152,7 +155,9 @@ export function Shell({ children }: { children: ReactNode }) {
             )}
             <Pressable
               accessibilityRole="link"
-              accessibilityLabel="Abrir cuenta de ejemplo de Ana"
+              accessibilityLabel={
+                session ? "Abrir mi cuenta" : "Abrir cuenta de ejemplo de Ana"
+              }
               onPress={() => router.push("/cuenta")}
               style={{ flexDirection: "row", gap: 9, alignItems: "center" }}
             >
@@ -160,10 +165,10 @@ export function Shell({ children }: { children: ReactNode }) {
                 <Text
                   style={{ fontFamily: f.bold, fontSize: 14, color: c.ink }}
                 >
-                  Hola, Ana
+                  {accountName}
                 </Text>
               )}
-              <Avatar name="Ana" size={37} />
+              <Avatar name={session ? "Mi cuenta" : "Ana"} size={37} />
             </Pressable>
           </View>
           <ScrollView

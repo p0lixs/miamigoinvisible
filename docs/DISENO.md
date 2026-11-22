@@ -57,4 +57,4 @@ Los flujos de la app necesitan formularios, navegación y controles nativos. Sus
 
 Existe una primera propuesta implementada en `app/`, descrita en [la guía del prototipo](PROTOTIPO.md). Utiliza Fredoka para títulos y Nunito Sans para texto, con ilustraciones SVG de regalos. Esta dirección todavía no está aprobada visualmente.
 
-Antes de aprobar UI: revisar bienvenida, creación, deseos y resultado en móvil y escritorio; después comprobar en dispositivos reales. La revisión en navegador y las capturas están pendientes porque no hay un navegador disponible en la sesión de automatización. No añadir más skills sin identificar qué necesidad concreta cubren.
+Antes de aprobar UI: revisar bienvenida, creación, deseos y resultado en móvil y escritorio; después comprobar en dispositivos reales. El 22 de noviembre de 2026 se han inspeccionado capturas del acceso a 390 y 1440 píxeles y del retorno de cancelación a 390 píxeles, generadas con Taste Skill sobre la exportación web local. La revisión del resto de recorridos y las pruebas en dispositivos siguen pendientes. No añadir más skills sin identificar qué necesidad concreta cubren.

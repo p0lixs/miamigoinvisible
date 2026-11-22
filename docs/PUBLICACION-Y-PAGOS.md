@@ -10,7 +10,20 @@
 | Datos y funciones | Proyecto Supabase con migraciones y secretos por entorno |
 | Correos | Dominio remitente verificado y proveedor transaccional |
 
-El usuario ya tiene cuentas de Supabase y Vercel y ha confirmado que aún no existe un proyecto Supabase para esta app. El siguiente paso es crear uno de desarrollo. Faltan las cuentas de desarrollador de Apple y Google y el dominio.
+El usuario ha creado los proyectos Supabase y Vercel y ha proporcionado sus URL y la clave pública. La web responde por HTTPS y Supabase Auth es accesible. El usuario confirma OAuth y retornos configurados; una nueva consulta del 22 de noviembre de 2026 confirma Google habilitado. Pendientes las variables de Vercel, publicar el código y validar las sesiones reales. El proyecto Supabase se solicitó para desarrollo. Región y reglas de datos siguen pendientes de verificar. Faltan las cuentas de desarrollador de Apple y Google y el dominio propio.
+
+## Siguiente hito de integración
+
+El objetivo es validar el acceso con Google en la web, conservar la sesión al recargar y cerrarla. El código de sesión ya está preparado localmente; los sorteos siguen siendo datos de ejemplo. Los pasos concretos y las URL están en [Conexión con Supabase y Vercel](CONFIGURACION-SERVICIOS.md).
+
+1. Mantener `app/` como raíz y `dist/` como salida. La versión anterior responde en la URL estable y en `/acceso`; verificar también `/auth/callback` tras publicar los cambios.
+2. Añadir `EXPO_PUBLIC_SUPABASE_URL` y `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` al entorno de Vercel correspondiente. La configuración local ya está preparada y el código lee estas variables. Nunca usar una clave secreta, `service_role` o contraseña de base de datos en ellas.
+3. Configurar Google OAuth: crear las credenciales en Google Auth Platform, registrar allí la URL de callback que muestra Supabase y guardar el Client ID y Client Secret en el proveedor Google de Supabase. El secreto pertenece a la configuración del proveedor, no al bundle de Expo. Seguir la [guía de Google de Supabase](https://supabase.com/docs/guides/auth/social-sign-in/auth-google).
+4. Configurar Site URL y las URL de retorno autorizadas en Supabase, incluida `https://miamigoinvisible.vercel.app/auth/callback`. Distinguir este retorno a la app del callback de Google a Supabase. Usar rutas exactas para el despliegue estable, según la [guía de redirecciones](https://supabase.com/docs/guides/auth/redirect-urls).
+5. Publicar el código preparado y probar acceso correcto, cancelación, error, recarga y cierre con Google real. La verificación web no sustituye la prueba de enlaces y sesiones en Android e iOS.
+6. Implementar migraciones y permisos para guardar borradores por organizador. Comprobar con dos cuentas que ninguna puede acceder a los datos de la otra mediante la API. Mantener los datos ficticios separados de las cuentas reales.
+
+Tras este hito, continuar con participantes, excepciones, generación en servidor, acceso verificado de invitados y correos. Las listas de deseos y la compra permanente siguen siendo obligatorias para el primer lanzamiento público.
 
 ## Preparación para las tiendas
 
