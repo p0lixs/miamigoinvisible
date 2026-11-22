@@ -1,6 +1,6 @@
 # Conexión con Supabase y Vercel
 
-La aplicación tiene preparado el acceso con Google mediante Supabase. El usuario confirma que ha configurado Google OAuth y los retornos; falta añadir las variables de Vercel, publicar el código y validar el acceso real. Los sorteos y deseos siguen siendo una demo local; iniciar sesión no los sube ni los vincula a la cuenta.
+El usuario confirma, el 22 de noviembre de 2026, que la web se ha desplegado en Vercel y ha podido iniciar sesión con Google mediante Supabase. Quedan por confirmar la permanencia de la sesión al recargar, su cierre y los casos de error con el proveedor real. La migración de [borradores privados de cuenta](BORRADORES.md) ya está ejecutada según confirma el usuario; falta publicar el código de esta entrega. Iniciar sesión no importa los datos de la demo.
 
 ## Servicios confirmados
 
@@ -12,7 +12,7 @@ La aplicación tiene preparado el acceso con Google mediante Supabase. El usuari
 
 Comprobación del 22 de noviembre de 2026: la web responde HTTP 200 en `/` y `/acceso`. El endpoint público de ajustes de Auth acepta la Publishable key y, tras la configuración realizada por el usuario, devuelve Google habilitado. El usuario confirma también la configuración del cliente OAuth y de las URL de retorno. Estas consultas no validan las tablas, RLS, la región elegida ni el flujo OAuth completo. El agente no ha modificado los proyectos remotos.
 
-La clave pública proporcionada está guardada solo en `app/.env.local`, ignorado por Git. No se reproduce en esta documentación. El dominio de Vercel sirve para esta fase sin contratar un dominio propio.
+La clave pública proporcionada está guardada en `app/.env.local`, ignorado por Git, y la aplicación desplegada dispone de la configuración necesaria para el acceso confirmado por el usuario. No se reproduce en esta documentación; no se han inspeccionado los ajustes privados de Vercel. El dominio de Vercel sirve para esta fase sin contratar un dominio propio.
 
 ## Variables de la aplicación
 
@@ -65,7 +65,7 @@ Para Android e iOS se ha preparado el retorno con `Linking.createURL` y el esque
 - Retorno validado por origen y ruta; canje del código de un solo uso, limpieza de parámetros del historial y tratamiento de cancelación o error sin mostrar respuestas externas.
 - Evita canjear dos veces el mismo código por montajes de React o retornos nativos duplicados. Admite el identificador `sb_flow_id` cuando Supabase lo incluye.
 - Pantalla de cuenta con la identidad autenticada y cierre de sesión en el dispositivo actual.
-- Los datos de Ana, borradores, resultados y deseos de ejemplo no se migran ni se atribuyen a la persona autenticada. No hay tablas ni permisos de sorteos implementados en esta tarea.
+- Los datos de Ana, resultados y deseos de ejemplo no se migran ni se atribuyen a la persona autenticada. Los nuevos borradores de cuenta tienen tablas y permisos propios en la migración que el usuario confirma haber ejecutado.
 
 ## Validación
 
@@ -73,8 +73,8 @@ Ejecutar `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test` y `npm.cmd 
 
 Las pruebas automatizadas cubren configuración pública, validación y errores del retorno, rechazo de retornos de otros orígenes y de tokens implícitos, canje PKCE único, persistencia y cierre de sesión con el SDK real y respuestas HTTP simuladas. No crean usuarios ni sustituyen una prueba real con Google.
 
-TypeScript, lint, las ocho pruebas y la exportación web han terminado correctamente. Se han inspeccionado capturas locales de acceso a 390 y 1440 píxeles y del retorno de cancelación a 390 píxeles. La cuenta autenticada y las interacciones con el proveedor real siguen pendientes de verificar.
+TypeScript, lint, las 18 pruebas y la exportación web forman parte de la verificación de esta entrega. Se han inspeccionado capturas locales de acceso a 390 y 1440 píxeles, del retorno de cancelación y de los nuevos flujos con sesiones y respuestas ficticias. El usuario confirma un acceso real con Google en la web desplegada; el agente no ha inspeccionado su sesión ni sus datos personales.
 
-Después de configurar OAuth y publicar: entrar con una cuenta de pruebas, comprobar su identidad en `/cuenta`, recargar, abrir otra pestaña del mismo origen y cerrar sesión. Probar también cancelar en Google, denegar el acceso y volver a un enlace caducado. Los sorteos deben seguir apareciendo como demo y no como datos de la cuenta.
+El inicio de sesión ya está confirmado por el usuario. Para completar la validación: comprobar la identidad en `/cuenta`, recargar, abrir otra pestaña del mismo origen y cerrar sesión. Probar también cancelar en Google, denegar el acceso y volver a un enlace caducado. Tras publicar la nueva entrega, la cuenta debe mostrar solo sus borradores; los ejemplos continúan en la demo sin sesión.
 
-El siguiente hito es crear migraciones y permisos para guardar borradores por organizador, y verificar mediante la API que dos cuentas distintas no acceden a los datos de la otra.
+El usuario confirma que ha ejecutado la migración mediante el panel. El siguiente hito es publicar esta entrega y verificar mediante la API real que dos cuentas distintas no acceden a los datos de la otra. La consulta sin sesión a las tres tablas ya devuelve acceso denegado. Hay un verificador SQL de solo lectura para revisar el catálogo y los permisos desde el panel, sin necesitar la integración de gestión. Consultar [Borradores privados](BORRADORES.md).

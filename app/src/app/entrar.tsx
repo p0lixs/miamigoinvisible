@@ -5,7 +5,9 @@ import { Shell } from "../components/Shell";
 import { Body, Button, Card, Field, Heading, Notice } from "../components/ui";
 import { GiftArt } from "../components/GiftArt";
 import { validEmail } from "../domain/draw";
+import { useStore } from "../data/store";
 export default function Join() {
+  const { mode } = useStore();
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +20,9 @@ export default function Join() {
     }
     setError("");
     setNotice(
-      "La verificación por correo todavía no está conectada en esta vista previa. No se ha enviado ningún mensaje. Puedes explorar la invitación de ejemplo.",
+      mode === "demo"
+        ? "La verificación por correo todavía no está conectada. No se ha enviado ningún mensaje. Puedes explorar la invitación de ejemplo."
+        : "El acceso por código estará disponible más adelante. No se ha enviado ningún mensaje.",
     );
   }
   return (
@@ -62,12 +66,14 @@ export default function Join() {
           </Body>
         </Card>
         {notice && <Notice>{notice}</Notice>}
-        <Button
-          variant="secondary"
-          onPress={() => router.push("/sorteo/pandilla")}
-        >
-          Explorar invitación de ejemplo
-        </Button>
+        {mode === "demo" && (
+          <Button
+            variant="secondary"
+            onPress={() => router.push("/sorteo/pandilla")}
+          >
+            Explorar invitación de ejemplo
+          </Button>
+        )}
       </View>
     </Shell>
   );

@@ -8,7 +8,7 @@ El presupuesto es obligatorio y orientativo, y el estilo visual sirve para todo 
 
 ## Estado actual
 
-Base ejecutable, a 22 de noviembre de 2026. La aplicación Expo está en `app/` e incluye un prototipo navegable con almacenamiento local y datos ficticios. La web publicada responde y Supabase Auth es accesible. El código del acceso con Google, retorno y cierre de sesión está preparado. El usuario confirma OAuth y los retornos configurados, y la consulta pública confirma Google habilitado. Faltan las variables de Vercel, publicar los cambios y validar el flujo real. Todavía no hay esquema de sorteos, envío de correos ni compras conectadas.
+Base ejecutable, a 22 de noviembre de 2026. El usuario confirma el despliegue en Vercel, un inicio de sesión correcto con Google y la ejecución de la migración de borradores en Supabase. La API reconoce las tablas y rechaza consultas anónimas. El código local de los borradores privados está preparado; falta publicar esta entrega y validar el guardado y el aislamiento con sesiones reales. La demo local queda separada de la cuenta. La permanencia de la sesión al recargar, su cierre y los casos de error con el proveedor real siguen pendientes de confirmar. Todavía no hay generación real de sorteos, correos ni compras conectadas.
 
 La base utiliza React Native, Expo Router y TypeScript. Se mantiene la propuesta de Supabase para autenticación, datos y operaciones del servidor, y Vercel para alojar la web. La propuesta y sus alternativas están en la arquitectura.
 
@@ -36,6 +36,7 @@ Abrir la dirección local que muestre Expo. Las dependencias ya están instalada
 | [Diseño](docs/DISENO.md) | Dirección visual y pantallas |
 | [Publicación y pagos](docs/PUBLICACION-Y-PAGOS.md) | Tiendas, infraestructura y monetización |
 | [Conexión de servicios](docs/CONFIGURACION-SERVICIOS.md) | Variables, Google OAuth, retornos y comprobación de sesiones |
+| [Borradores privados](docs/BORRADORES.md) | Guardado en Supabase, permisos, versiones, reintentos y migración |
 | [Plan de desarrollo](docs/PLAN.md) | Fases y validaciones |
 | [Decisiones](docs/DECISIONES.md) | Acuerdos, propuestas y preguntas pendientes |
 | [Normas de trabajo](AGENTS.md) | Instrucciones persistentes para trabajar en el proyecto |
@@ -43,6 +44,6 @@ Abrir la dirección local que muestre Expo. Las dependencias ya están instalada
 
 ## Próximo hito
 
-Completar la [configuración de Google y Vercel](docs/CONFIGURACION-SERVICIOS.md), publicar el código de autenticación y probar inicio, recuperación y cierre de sesión con el proveedor real. Después, implementar borradores en servidor con permisos por organizador y comprobar el aislamiento entre dos cuentas antes de conectar sorteos y resultados.
+Publicar el código de [borradores privados](docs/BORRADORES.md) en Vercel y validar guardado, recarga, copia, aislamiento entre dos cuentas y cambios concurrentes mediante la API real. La migración ya está ejecutada según confirma el usuario; el verificador SQL de solo lectura está disponible para revisar el catálogo y los permisos desde el panel. Completar también la [validación de sesiones](docs/CONFIGURACION-SERVICIOS.md#validación) antes de conectar sorteos y resultados.
 
 Moneda, fecha del intercambio y copia de deseos siguen pendientes; el prototipo utiliza provisionalmente euros, fecha opcional y listas vacías al copiar. Las cuentas de las tiendas y el dominio se configurarán en una fase posterior.

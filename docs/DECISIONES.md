@@ -31,6 +31,9 @@ Fecha inicial: 21 de noviembre de 2026.
 | D23 | Repositorio del proyecto: `https://github.com/p0lixs/miamigoinvisible.git` |
 | D24 | El usuario confirma que ya ha creado los proyectos de Supabase y Vercel; quedan por verificar la configuración y la conexión con la aplicación |
 | D25 | URL proporcionadas: web `https://miamigoinvisible.vercel.app` y Supabase `https://osuagtuwrgohzrnmrgel.supabase.co`; Publishable key recibida y guardada fuera de Git |
+| D26 | El usuario confirma el despliegue web y un inicio de sesión correcto con Google; no implica validación completa de sesiones ni persistencia de sorteos |
+| D27 | Continuar con la implementación; el usuario elige conectar la integración de Supabase para aplicar la migración de borradores |
+| D28 | El usuario acepta continuar con scripts sin depender de la integración de gestión y confirma haber ejecutado la migración de borradores en Supabase |
 
 ## Propuestas técnicas
 
@@ -63,11 +66,14 @@ La primera base en `app/` usa euros, fecha opcional y listas de deseos vacías a
 | Antes de cerrar la copia | ¿Se copian también las listas de deseos? | No copiar contenido ni fotos de los participantes por defecto |
 | Antes de habilitar imágenes | ¿Límites de fotos y avisos al cambiar deseos? | Fijar cuotas de tamaño y cantidad; avisos aún no definidos |
 | Antes de publicar | ¿Borrado, conservación de grupos y cuentas? | Política explícita con tratamiento de grupos activos |
-| Antes de validar el acceso | ¿Variables de Vercel y código publicados? ¿Región de Supabase elegida? | Google OAuth y retornos configurados según el usuario; Google habilitado según la API pública. Frankfurt y ajustes de tablas fueron recomendaciones, no configuración verificada |
+| Antes de cerrar la prueba de acceso | ¿La sesión se mantiene al recargar y se cierra correctamente? ¿Región de Supabase elegida? | Despliegue y acceso con Google confirmados por el usuario. Frankfurt y ajustes de tablas fueron recomendaciones, no configuración verificada |
 | Antes de las tiendas | ¿Territorios, idiomas, público y fecha objetivo? | Prototipo en español, sin asumir todavía mercados ni edad |
 
 ## Historial
 
+- 22 de noviembre de 2026: el usuario opta por los scripts y confirma ejecutar la migración en Supabase. Las consultas remotas con Publishable key y sin sesión a las tres tablas devuelven HTTP 401 y `42501`; no se han leído filas. Añadido un verificador SQL de solo lectura y probado en PostgreSQL embebido antes y después de la migración y con RLS deshabilitado. Pendientes el despliegue del código local, la ejecución remota del verificador y las pruebas autenticadas entre cuentas.
+- 22 de noviembre de 2026: implementados en local los borradores privados de cuenta, guardado transaccional con versión y reintentos, copia independiente y separación de la demo. Preparada la primera migración y comprobadas sus políticas en PostgreSQL embebido con usuarios ficticios. El usuario elige conectar Supabase para aplicarla; la integración todavía no figura instalada/conectada. No se ha aplicado SQL al proyecto remoto ni publicado esta entrega.
+- 22 de noviembre de 2026: el usuario confirma que la web ya se ha desplegado y ha podido acceder con Google. Se registra el inicio de sesión real como comprobación realizada por el usuario. Permanencia tras recarga, cierre, cancelación, errores y dispositivos móviles siguen pendientes; los sorteos y deseos continúan siendo ejemplos locales.
 - 22 de noviembre de 2026: el usuario confirma completar la configuración de Google OAuth, el proveedor de Supabase y las URL de retorno. Una nueva consulta pública de Auth confirma Google habilitado. Pendientes las variables en Vercel, la publicación del código local y la validación del acceso con una cuenta real; no basta con redesplegar la versión anterior.
 - 22 de noviembre de 2026: recibidas URL y Publishable key. Comprobadas respuestas HTTP 200 en `/` y `/acceso` de Vercel y acceso a los ajustes públicos de Supabase Auth, que indican Google desactivado. Implementado acceso con PKCE, recuperación y cierre de sesión en el código local, separado de los datos de la demo. Preparada la guía de configuración con retornos concretos. No se han modificado ajustes remotos, creado usuarios, aplicado migraciones ni desplegado estos cambios.
 - 22 de noviembre de 2026: el usuario confirma la creación de los proyectos Supabase y Vercel. Se propone como siguiente hito verificar el despliegue, integrar Google y probar las sesiones; después, persistir borradores con permisos por organizador. No se han consultado los proyectos remotos ni aplicado migraciones. Las integraciones de Supabase y Vercel no están instaladas en esta sesión.

@@ -36,6 +36,18 @@ export default function Wishes() {
   const [selected, setSelected] = useState(params.draw || "pandilla");
   const draw = store.draws.find((d) => d.id === selected);
   const recipientView = params.view === "recipient";
+  if (store.mode === "account")
+    return (
+      <Shell>
+        <Heading>Los deseos llegarán pronto</Heading>
+        <Body muted>
+          Estamos preparando las listas privadas y la compra permanente. Tus
+          borradores ya tienen su propio espacio; aquí todavía no se guardan
+          deseos ni fotografías.
+        </Body>
+        <Button onPress={() => router.replace("/")}>Ver mis sorteos</Button>
+      </Shell>
+    );
   if (!store.ready)
     return (
       <Shell>

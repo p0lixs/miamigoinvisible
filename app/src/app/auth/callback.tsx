@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 import { router } from "expo-router";
 import { Shell } from "../../components/Shell";
 import { Button, Card, Heading, Loading, Notice } from "../../components/ui";
-import { useAuth } from "../../auth/session";
+import { authReturnUrl, useAuth } from "../../auth/session";
 import { AuthFlowError } from "../../domain/auth";
 
 export default function AuthCallback() {
@@ -13,9 +13,15 @@ export default function AuthCallback() {
     Platform.OS === "web" ? window.location.href : null,
   );
   const [error, setError] = useState<string | null>(null);
-  const { completeSignIn } = useAuth();
+  const { completeSignIn, session } = useAuth();
   const url = webUrl ?? nativeUrl;
   useEffect(() => {
+    // Al iniciar sesión, el almacén de datos cambia y desmonta las pantallas de
+    // la demo. El código ya se limpió de la URL y no debe canjearse otra vez.
+    if (session && (!url || url === authReturnUrl())) {
+      router.replace("/cuenta");
+      return;
+    }
     if (!url) return;
     let active = true;
     // Limpiar el código del historial antes de mostrar otras pantallas o enlaces.
@@ -40,7 +46,7 @@ export default function AuthCallback() {
     return () => {
       active = false;
     };
-  }, [url, completeSignIn]);
+  }, [url, completeSignIn, session]);
   return (
     <Shell>
       <View style={{ maxWidth: 520, width: "100%", alignSelf: "center" }}>

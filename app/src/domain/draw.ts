@@ -3,6 +3,7 @@ export type Exclusion = { giverId: string; recipientId: string };
 export type Wish = { id: string; title: string; note: string; link: string };
 export type Draw = {
   id: string;
+  version?: number;
   title: string;
   description: string;
   budgetCents: number | null;
@@ -90,12 +91,16 @@ export function validateDraw(draw: Draw): string[] {
 }
 
 export function duplicateDraw(source: Draw, id: () => string): Draw {
+  const suffix = " · copia";
+  let title = source.title;
+  while ((title + suffix).length > 100)
+    title = Array.from(title).slice(0, -1).join("");
   const participantIds = new Map(
     source.participants.map((person) => [person.id, id()]),
   );
   return {
     id: id(),
-    title: `${source.title} · copia`,
+    title: title + suffix,
     description: source.description,
     budgetCents: source.budgetCents,
     date: source.date,

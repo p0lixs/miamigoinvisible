@@ -5,7 +5,9 @@ import { Shell } from "../components/Shell";
 import { Body, Button, Card, Chip, Heading, Notice, s } from "../components/ui";
 import { Icon } from "../components/Icon";
 import { colors as c } from "../theme";
+import { useStore } from "../data/store";
 export default function Premium() {
+  const { mode } = useStore();
   const [message, setMessage] = useState("");
   return (
     <Shell>
@@ -60,9 +62,11 @@ export default function Premium() {
           Estamos definiendo el precio. Las compras todavía no están disponibles
           en esta vista previa.
         </Notice>
-        <Button icon="heart" onPress={() => router.push("/deseos")}>
-          Probar mis deseos de ejemplo
-        </Button>
+        {mode === "demo" && (
+          <Button icon="heart" onPress={() => router.push("/deseos")}>
+            Probar mis deseos de ejemplo
+          </Button>
+        )}
         <Button
           variant="secondary"
           onPress={() =>

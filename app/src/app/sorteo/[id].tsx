@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { Text, useWindowDimensions, View } from "react-native";
 import { Shell } from "../../components/Shell";
@@ -18,9 +18,17 @@ import { GiftArt } from "../../components/GiftArt";
 import { colors as c, fonts as f } from "../../theme";
 import { useStore } from "../../data/store";
 import { dateLabel, money, validateDraw } from "../../domain/draw";
+import { DraftError } from "../../domain/draft";
 export default function DrawScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { draws, ready, copy } = useStore();
+  const { draws, ready, copy, mode, saving } = useStore();
+  const active = useRef(false);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+    };
+  }, []);
   const draw = draws.find((d) => d.id === id);
   const [revealed, setRevealed] = useState(false);
   const [notice, setNotice] = useState("");
@@ -37,7 +45,7 @@ export default function DrawScreen() {
       <Shell>
         <Heading>Sorteo no encontrado</Heading>
         <Body muted>
-          Puede que este borrador pertenezca a otro dispositivo.
+          No está disponible en esta cuenta o en este dispositivo.
         </Body>
         <Button onPress={() => router.replace("/")}>
           Volver a mis sorteos
@@ -56,12 +64,16 @@ export default function DrawScreen() {
           Mis sorteos
         </Button>
         <Chip tone={draw.status === "drawn" ? "green" : "orange"}>
-          {draw.status === "drawn" ? "Sorteado · ejemplo" : "Borrador local"}
+          {draw.status === "drawn"
+            ? "Sorteado · ejemplo"
+            : mode === "account"
+              ? "Borrador en tu cuenta"
+              : "Borrador local"}
         </Chip>
       </View>
       <View style={[s.between, { alignItems: "flex-start", flexWrap: "wrap" }]}>
         <View style={{ flex: 1, minWidth: 200, gap: 12 }}>
-          <Heading size={34}>{draw.title}</Heading>
+          <Heading size={34}>{draw.title || "Sorteo sin título"}</Heading>
           <Body muted>
             {draw.description ||
               "Cada detalle cuenta. Prepara una sorpresa para tu gente."}
@@ -70,9 +82,24 @@ export default function DrawScreen() {
         <Button
           icon="copy"
           variant="secondary"
-          onPress={() => router.push(`/sorteo/${copy(draw)}`)}
+          disabled={saving}
+          onPress={() => {
+            setNotice("");
+            void copy(draw)
+              .then((newId) => {
+                if (active.current) router.push(`/sorteo/${newId}`);
+              })
+              .catch((error) => {
+                if (active.current)
+                  setNotice(
+                    error instanceof DraftError
+                      ? error.message
+                      : "No se ha podido copiar el sorteo. Inténtalo de nuevo.",
+                  );
+              });
+          }}
         >
-          Copiar sorteo
+          {saving ? "Copiando…" : "Copiar sorteo"}
         </Button>
       </View>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
@@ -189,7 +216,7 @@ export default function DrawScreen() {
               </Button>
             </Card>
           )}
-          {me && (
+          {me && mode === "demo" && (
             <Card
               style={{ backgroundColor: c.mintLight, borderColor: "#D8EBDF" }}
             >
@@ -251,17 +278,18 @@ export default function DrawScreen() {
               </Body>
             </View>
             <Body muted style={{ fontSize: 13 }}>
-              Vista del organizador de ejemplo. La comprobación de identidad
-              real todavía no está conectada.
+              {mode === "account"
+                ? "Solo el organizador puede gestionar este borrador. El acceso de invitados y los resultados se habilitarán más adelante."
+                : "Vista del organizador de ejemplo. La comprobación de identidad de los invitados todavía no está conectada."}
             </Body>
           </View>
         </Card>
       </View>
       {notice && <Notice>{notice}</Notice>}
       <Notice>
-        Los cambios de esta vista previa se guardan solo en este dispositivo.
-        Copiar crea un borrador nuevo y no envía invitaciones ni reutiliza
-        resultados.
+        {mode === "account"
+          ? "Este borrador está guardado en tu cuenta. Copiar crea otro independiente, sin deseos, resultados ni accesos heredados. Todavía no se envían invitaciones."
+          : "Los cambios de la demo se guardan solo en este dispositivo. Copiar crea un borrador nuevo y no envía invitaciones ni reutiliza resultados."}
       </Notice>
     </Shell>
   );

@@ -10,7 +10,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors as c, fonts as f } from "../theme";
 import { Icon, type IconName } from "./Icon";
-import { Avatar, Body } from "./ui";
+import { Avatar, Button, Notice } from "./ui";
 import { useStore } from "../data/store";
 import type { ReactNode } from "react";
 import { useAuth } from "../auth/session";
@@ -58,7 +58,12 @@ export function Shell({ children }: { children: ReactNode }) {
   const desktop = width >= 1000;
   const path = usePathname();
   const insets = useSafeAreaInsets();
-  const { storageError } = useStore();
+  const { storageError, loadError, mode, ready, reload } = useStore();
+  const dataView =
+    path === "/" ||
+    path === "/nuevo" ||
+    path === "/deseos" ||
+    path.startsWith("/sorteo/");
   const { session } = useAuth();
   const accountName = session ? "Mi cuenta" : "Ana · demo";
   return (
@@ -86,7 +91,9 @@ export function Shell({ children }: { children: ReactNode }) {
             textAlign: "center",
           }}
         >
-          DEMO · Sorteos y deseos locales de ejemplo · Sin envíos ni cobros
+          {mode === "demo"
+            ? "DEMO · Sorteos y deseos locales de ejemplo · Sin envíos ni cobros"
+            : "TU CUENTA · Borradores privados · Sorteos y envíos aún no disponibles"}
         </Text>
       </View>
       <View style={{ flex: 1, flexDirection: "row" }}>
@@ -189,13 +196,16 @@ export function Shell({ children }: { children: ReactNode }) {
                 gap: 25,
               }}
             >
-              {storageError && (
-                <Body muted>
-                  No se han podido guardar los cambios en este dispositivo.
-                  Puedes seguir explorando sin cerrar esta vista.
-                </Body>
+              {storageError && (mode === "demo" || dataView) && (
+                <Notice error>{storageError}</Notice>
               )}
-              {children}
+              {loadError && dataView ? (
+                <Button disabled={!ready} onPress={() => void reload()}>
+                  Volver a cargar mis sorteos
+                </Button>
+              ) : (
+                children
+              )}
             </View>
           </ScrollView>
         </View>

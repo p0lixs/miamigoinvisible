@@ -10,18 +10,18 @@
 | Datos y funciones | Proyecto Supabase con migraciones y secretos por entorno |
 | Correos | Dominio remitente verificado y proveedor transaccional |
 
-El usuario ha creado los proyectos Supabase y Vercel y ha proporcionado sus URL y la clave pública. La web responde por HTTPS y Supabase Auth es accesible. El usuario confirma OAuth y retornos configurados; una nueva consulta del 22 de noviembre de 2026 confirma Google habilitado. Pendientes las variables de Vercel, publicar el código y validar las sesiones reales. El proyecto Supabase se solicitó para desarrollo. Región y reglas de datos siguen pendientes de verificar. Faltan las cuentas de desarrollador de Apple y Google y el dominio propio.
+El usuario ha creado los proyectos Supabase y Vercel y ha proporcionado sus URL y la clave pública. El 22 de noviembre de 2026 confirma el despliegue web y un inicio de sesión correcto con Google. Permanencia de la sesión al recargar, cierre y errores con el proveedor real siguen pendientes de confirmar. El proyecto Supabase se solicitó para desarrollo. Región y reglas de datos siguen pendientes de verificar. Faltan las cuentas de desarrollador de Apple y Google y el dominio propio.
 
 ## Siguiente hito de integración
 
-El objetivo es validar el acceso con Google en la web, conservar la sesión al recargar y cerrarla. El código de sesión ya está preparado localmente; los sorteos siguen siendo datos de ejemplo. Los pasos concretos y las URL están en [Conexión con Supabase y Vercel](CONFIGURACION-SERVICIOS.md).
+El despliegue y el inicio de sesión con Google ya están confirmados por el usuario. El usuario también confirma que ha ejecutado la migración de [borradores privados](BORRADORES.md) desde el panel; la API reconoce las tablas y rechaza consultas anónimas. Falta publicar el código de esta entrega y verificar guardado, recarga, copia, aislamiento y concurrencia en el servicio real, además de las pruebas de sesión pendientes. La siguiente lista conserva el procedimiento de preparación y validación, no una lista íntegra de tareas pendientes.
 
 1. Mantener `app/` como raíz y `dist/` como salida. La versión anterior responde en la URL estable y en `/acceso`; verificar también `/auth/callback` tras publicar los cambios.
 2. Añadir `EXPO_PUBLIC_SUPABASE_URL` y `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` al entorno de Vercel correspondiente. La configuración local ya está preparada y el código lee estas variables. Nunca usar una clave secreta, `service_role` o contraseña de base de datos en ellas.
 3. Configurar Google OAuth: crear las credenciales en Google Auth Platform, registrar allí la URL de callback que muestra Supabase y guardar el Client ID y Client Secret en el proveedor Google de Supabase. El secreto pertenece a la configuración del proveedor, no al bundle de Expo. Seguir la [guía de Google de Supabase](https://supabase.com/docs/guides/auth/social-sign-in/auth-google).
 4. Configurar Site URL y las URL de retorno autorizadas en Supabase, incluida `https://miamigoinvisible.vercel.app/auth/callback`. Distinguir este retorno a la app del callback de Google a Supabase. Usar rutas exactas para el despliegue estable, según la [guía de redirecciones](https://supabase.com/docs/guides/auth/redirect-urls).
 5. Publicar el código preparado y probar acceso correcto, cancelación, error, recarga y cierre con Google real. La verificación web no sustituye la prueba de enlaces y sesiones en Android e iOS.
-6. Implementar migraciones y permisos para guardar borradores por organizador. Comprobar con dos cuentas que ninguna puede acceder a los datos de la otra mediante la API. Mantener los datos ficticios separados de las cuentas reales.
+6. Aplicar la migración y desplegar los borradores por organizador ya implementados. Comprobar con dos cuentas que ninguna puede acceder a los datos de la otra mediante la API real. Mantener los datos ficticios separados de las cuentas reales.
 
 Tras este hito, continuar con participantes, excepciones, generación en servidor, acceso verificado de invitados y correos. Las listas de deseos y la compra permanente siguen siendo obligatorias para el primer lanzamiento público.
 

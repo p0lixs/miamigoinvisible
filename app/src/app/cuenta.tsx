@@ -35,9 +35,11 @@ export default function Account() {
           <Chip tone="green">Sesión iniciada con Google</Chip>
           <Body muted>
             Tu sesión se conserva en este navegador o dispositivo. El guardado
-            de sorteos en tu cuenta estará disponible en el siguiente paso.
+            de borradores en Supabase permite consultarlos desde tus
+            dispositivos.
           </Body>
           {error && <Notice error>{error}</Notice>}
+          <Button onPress={() => router.push("/")}>Ver mis sorteos</Button>
           <Button
             variant="secondary"
             disabled={busy}
@@ -81,8 +83,9 @@ export default function Account() {
       </Card>
       <Notice>
         El borrado de cuenta y la restauración de compras se habilitarán al
-        completar esos servicios. Los sorteos y deseos siguen siendo ejemplos
-        locales, separados de tu sesión de Google.
+        completar esos servicios. Los borradores de tu cuenta se guardan por
+        separado de los ejemplos locales. La generación de sorteos y las listas
+        de deseos reales aún no están disponibles.
       </Notice>
     </Shell>
   );

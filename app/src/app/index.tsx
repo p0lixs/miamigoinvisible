@@ -18,7 +18,7 @@ import { colors as c, fonts as f } from "../theme";
 import { useStore } from "../data/store";
 import { dateLabel, money } from "../domain/draw";
 export default function Home() {
-  const { draws, ready } = useStore();
+  const { draws, ready, mode, reload } = useStore();
   const { width } = useWindowDimensions();
   const wide = width >= 760;
   const [filter, setFilter] = useState("Todos");
@@ -142,6 +142,11 @@ export default function Home() {
                 </Text>
               </View>
             </View>
+            {mode === "account" && (
+              <Button small variant="quiet" onPress={() => void reload()}>
+                Actualizar mis sorteos
+              </Button>
+            )}
             <View
               style={{
                 flexDirection: "row",
@@ -254,7 +259,9 @@ export default function Home() {
                         </Text>
                       </View>
                     </View>
-                    <Heading size={24}>{draw.title}</Heading>
+                    <Heading size={24}>
+                      {draw.title || "Sorteo sin título"}
+                    </Heading>
                     <View
                       style={{
                         flexDirection: "row",

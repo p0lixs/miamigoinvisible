@@ -2,7 +2,7 @@
 
 ## Modelo conceptual propuesto
 
-Este modelo define responsabilidades y restricciones. Todavía no es una migración SQL.
+Este modelo define responsabilidades y restricciones del producto completo. La primera [migración de borradores](BORRADORES.md) implementa `draws`, `draw_participants` y `draw_exclusions`, con RLS y guardado transaccional. El usuario confirma que la ha ejecutado en Supabase; la API reconoce las tablas y rechaza consultas anónimas. La comprobación completa de permisos remotos y del aislamiento entre cuentas sigue pendiente. El resto del modelo continúa propuesto.
 
 | Entidad | Datos principales | Restricciones |
 | --- | --- | --- |

@@ -41,9 +41,10 @@ No fijar una fecha pública antes de conocer el alcance de los pagos y los plazo
 ## Situación actual
 
 - Completado: análisis inicial, documentación, copia local de Taste Skill y primera base de aplicación en `app/` con pantallas y almacenamiento de ejemplo.
-- Infraestructura: proyectos Supabase y Vercel creados, URL proporcionadas, web con respuestas HTTP 200 y API pública de Supabase Auth accesible. El usuario confirma OAuth y retornos configurados; Google habilitado según la consulta pública. Pendientes variables y despliegue del código nuevo en Vercel, región y reglas de datos.
-- Implementado en local: cliente Supabase, sesión con Google y PKCE, retorno, recuperación y cierre; variables locales ignoradas por Git. Pendiente de configurar el proveedor y publicar el código.
-- Verificado: TypeScript, lint, ocho pruebas del dominio y autenticación, exportación web y consultas HTTP. La exportación de la base anterior para Android e iOS no valida el nuevo acceso en dispositivos.
-- Pendiente: revisión visual, pruebas en dispositivos, decisiones detalladas y prueba de autenticación real.
-- No iniciado: migraciones Supabase, generación y correos reales, invitados verificados y compras.
-- Siguiente hito propuesto: añadir las variables de Vercel, publicar el código de acceso y probar inicio, recuperación y cierre de sesión con Google real. A continuación, persistir borradores con permisos por organizador y verificar aislamiento entre dos cuentas. Mantener los datos de ejemplo separados de las cuentas reales.
+- Infraestructura: proyectos Supabase y Vercel creados; el usuario confirma el despliegue web y un acceso correcto con Google. Región y reglas de datos pendientes de verificar.
+- Implementado: cliente Supabase, sesión con Google y PKCE, retorno, recuperación y cierre; variables locales ignoradas por Git. El inicio de sesión web ha sido probado por el usuario; el resto del ciclo de sesión sigue pendiente de confirmar con el proveedor real.
+- Implementado en local: borradores privados con participantes y excepciones, carga y guardado en servidor, copia independiente, RLS y función transaccional con versiones y reintentos. El usuario confirma la migración ejecutada en Supabase y la API rechaza consultas anónimas a las tres tablas. Falta publicar el código de esta entrega y verificar operaciones autenticadas y aislamiento remoto.
+- Verificado: TypeScript, lint, 18 pruebas del dominio, autenticación, repositorio y políticas SQL con PostgreSQL embebido, exportación web y consultas HTTP. La exportación de la base anterior para Android e iOS no valida los nuevos flujos en dispositivos.
+- Pendiente: completar la revisión visual, pruebas en dispositivos, decisiones detalladas y pruebas de recarga, cierre y errores de sesión con Google real.
+- No iniciado: generación y correos reales, invitados verificados y compras.
+- Siguiente hito: desplegar el código de borradores y verificar guardado, recarga, copia, aislamiento y concurrencia en el servicio real. El verificador SQL de solo lectura permite comprobar el catálogo y los permisos desde el panel, sin instalar la integración. Completar las pruebas pendientes de sesión. Mantener los datos de ejemplo separados de las cuentas reales.
