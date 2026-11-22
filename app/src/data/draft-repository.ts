@@ -49,7 +49,7 @@ export function createDraftRepository(
         const { data, error } = await client
           .from("draws")
           .select(
-            "id,title,description,budget_cents,currency,exchange_date,status,color,version,draw_participants(id,name,email,position),draw_exclusions(giver_id,recipient_id)",
+            "id,title,description,budget_cents,currency,exchange_date,status,color,version,draw_participants:draw_participants!draw_participants_draw_id_fkey(id,name,email,position),draw_exclusions:draw_exclusions!draw_exclusions_draw_id_fkey(giver_id,recipient_id)",
           )
           .eq("owner_id", owner.id)
           .order("updated_at", { ascending: false });

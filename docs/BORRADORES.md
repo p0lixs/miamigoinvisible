@@ -43,6 +43,18 @@ Después publicar el código de la app en Vercel. No hacen falta nuevas variable
 
 ## Verificación y límites
 
+### Corrección de carga por relaciones ambiguas
+
+El usuario ha detectado `PGRST201` al cargar «Mis sorteos» con su cuenta. PostgREST encuentra la relación directa entre `draws` y `draw_participants`, además de rutas de muchos a muchos mediante `draw_exclusions`. La consulta sin desambiguar no permitía cargar ni siquiera una lista vacía.
+
+La consulta del repositorio fija las claves `draw_participants_draw_id_fkey` y `draw_exclusions_draw_id_fkey`, con alias para conservar los nombres de las propiedades de la respuesta. Se utiliza la [sintaxis de FK explícita de PostgREST](https://docs.postgrest.org/en/stable/references/api/resource_embedding.html#foreign-key-joins-on-multiple-foreign-key-relationships). El cambio está en el cliente y no requiere ejecutar SQL ni modificar permisos.
+
+Se ha reproducido el fallo en la API real con Publishable key, sin sesión y `limit=0`: la consulta anterior devuelve HTTP 300 con `PGRST201`; la corregida llega a la comprobación de permisos y devuelve HTTP 401 con `42501`, sin leer filas. Esto valida la resolución de relaciones en el esquema desplegado, pero el resultado autenticado debe comprobarse tras publicar la corrección.
+
+La prueba del repositorio reproduce ahora la respuesta `PGRST201` si falta cualquiera de las FK directas y comprueba que la consulta corregida conserva sus filtros y la interpretación de la respuesta. Se confirmó que esa prueba fallaba antes de cambiar la consulta.
+
+### Comprobaciones generales
+
 Las pruebas de `app/tests/database.test.mts` ejecutan la migración real en PostgreSQL embebido mediante PGlite. El entorno reproduce los roles `anon` y `authenticated`, dos usuarios ficticios y la lectura de `auth.uid()`; no utiliza cuentas reales ni sustituye Supabase Auth.
 
 Se comprueban aislamiento en las tres tablas, denegación anónima y de escritura directa, protección frente a cambio de propietario, colisión de identificadores, reintentos idempotentes, versiones antiguas, correos duplicados, fechas inválidas, rechazo de campos privados y reversión completa ante excepciones inválidas. Las pruebas del repositorio usan el SDK Supabase con HTTP simulado y comprueban filtros por propietario, serialización sin deseos ni resultados y reintentos tras un fallo de respuesta.

@@ -111,6 +111,23 @@ test("lectura: consulta limitada al propietario, sin comodines, orden estable y 
           assert.equal(url.searchParams.get("owner_id"), `eq.${owner.id}`);
           assert.equal(url.searchParams.get("order"), "updated_at.desc");
           assert.equal(url.searchParams.get("select")?.includes("*"), false);
+          const select = url.searchParams.get("select") ?? "";
+          // El esquema real tambien tiene rutas indirectas mediante excepciones.
+          // PostgREST rechaza el embedding si no se elige cada FK directa.
+          if (
+            !select.includes(
+              "draw_participants!draw_participants_draw_id_fkey(",
+            ) ||
+            !select.includes("draw_exclusions!draw_exclusions_draw_id_fkey(")
+          ) {
+            return new Response(
+              JSON.stringify({
+                code: "PGRST201",
+                message: "Ambiguous embedding",
+              }),
+              { status: 300 },
+            );
+          }
           return new Response(JSON.stringify([row]), { status: 200 });
         },
       },
