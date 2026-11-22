@@ -18,6 +18,7 @@
 - Invitados sin registro obligatorio. El organizador necesita cuenta.
 - Cada participante solo puede consultar su destinatario. El organizador tampoco puede consultar emparejamientos ajenos.
 - Crear sorteos con título, descripción, personas y correos, presupuesto obligatorio y orientativo, y excepciones.
+- Para la primera versión: moneda EUR, fecha del intercambio opcional y entre 3 y 100 participantes, confirmado por el usuario.
 - Se permiten parejas recíprocas: dos personas pueden regalarse mutuamente si ninguna excepción lo impide.
 - Repetir un sorteo crea una entidad nueva e independiente copiando su configuración y participantes; no modifica el original ni reutiliza sus resultados.
 - Excepciones direccionales con opción explícita de hacerlas mutuas.
@@ -42,7 +43,8 @@ Estas convenciones son propuestas técnicas del análisis inicial; no atribuirla
 - La copia local de Taste Skill está en `skills/taste-skill/SKILL.md`. Es una referencia para diseño web; adaptar su aplicación al producto móvil, sin reemplazar la arquitectura por una landing estática. Consultar `docs/DISENO.md`.
 - La aplicación Expo está en `app/`, con rutas en `app/src/app/` y normas de Expo adicionales en `app/AGENTS.md`. En Windows usar `npm.cmd` y `npx.cmd` cuando PowerShell bloquee los wrappers `.ps1`.
 - La raíz Git es `D:/Desarrollo/amigoInvisible`, para incluir aplicación y documentación en el mismo repositorio. El remoto `origin` corresponde al repositorio indicado por el usuario. Consultar `docs/REPOSITORIO.md` antes de reorganizar metadatos Git.
-- La demo sin sesión usa almacenamiento local y escenas de ejemplo. El usuario confirma que ha ejecutado la migración de borradores en Supabase mediante el panel; la API reconoce las tablas y rechaza consultas anónimas. Falta desplegar el código local de esta entrega y verificar guardado y aislamiento con sesiones reales. No importar la demo automáticamente ni persistir los borradores reales en el almacén local de ejemplo. Consultar `docs/BORRADORES.md` y `supabase/checks/verify_drafts.sql`.
+- La demo sin sesión usa almacenamiento local y escenas de ejemplo. El usuario confirma la migración de borradores en Supabase y el guardado web tras corregir `PGRST201`; la API reconoce las tablas y rechaza consultas anónimas. La recuperación tras recarga, edición, copia, aislamiento entre cuentas y concurrencia remota siguen pendientes de confirmar. No importar la demo automáticamente ni persistir los borradores reales en el almacén local de ejemplo. Consultar `docs/BORRADORES.md` y `supabase/checks/verify_drafts.sql`.
+- La generación en servidor y la consulta del destinatario propio están preparadas en la segunda migración y el código local; faltan aplicar esa migración y desplegar esta entrega. Los resultados se guardan en `draw_private`, sin lectura directa del cliente. La consulta usa el correo confirmado de Auth, no un participante elegido por el cliente. Los invitados sin cuenta y los correos siguen pendientes. Consultar `docs/SORTEOS.md`.
 - El usuario ha confirmado el inicio de sesión con Google en la web desplegada; distinguirlo de la validación completa de sesiones, de las pruebas remotas de borradores y del acceso móvil, todavía pendientes. No presentar los ejemplos como sorteos realizados, correos enviados, compras verificadas o controles de acceso de producción.
 
 Última actualización: 22 de noviembre de 2026.

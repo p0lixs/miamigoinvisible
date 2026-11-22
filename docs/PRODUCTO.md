@@ -11,7 +11,8 @@ Mi amigo invisible permite organizar un amigo invisible con pocos pasos: crear u
 | Nombre | Mi amigo invisible |
 | Plataformas | Android, iOS y web completa |
 | Cuenta | Inicio de sesión con Google para organizar; invitados sin registro obligatorio |
-| Datos del sorteo | Título, descripción y presupuesto obligatorio y orientativo para el regalo |
+| Datos del sorteo | Título, descripción, presupuesto obligatorio y orientativo en EUR y fecha de intercambio opcional |
+| Tamaño del grupo | Entre 3 y 100 participantes en la primera versión |
 | Participantes | Nombre y correo añadidos por el organizador |
 | Excepciones | «Ana no puede regalar a Luis», con opción de prohibir también el sentido inverso |
 | Generación | Un destinatario por persona, respetando todas las restricciones |
@@ -29,7 +30,7 @@ El organizador puede participar, pero crear el grupo no lo incorpora automática
 ## Flujo del organizador
 
 1. Iniciar sesión y abrir «Crear sorteo».
-2. Introducir título, descripción y presupuesto obligatorio y orientativo. Propuesta: fecha del intercambio opcional y moneda EUR inicialmente.
+2. Introducir título, descripción y presupuesto obligatorio y orientativo en EUR. La fecha del intercambio es opcional.
 3. Añadir nombres y correos; indicar si también participa.
 4. Configurar excepciones. El formulario explica la dirección con nombres completos y ofrece «También al revés».
 5. Si se ha activado la lista de deseos, invitar a los participantes para que puedan rellenarla antes de sortear. El momento de envío de estas invitaciones se concretará en la interfaz.
@@ -65,11 +66,11 @@ Las listas y su compra permanente estarán disponibles desde la primera versión
 
 ## Reglas propuestas para la primera versión
 
-- Mínimo de 3 participantes y máximo técnico inicial de 100, revisable tras medir el algoritmo y los costes. El límite no es una decisión comercial confirmada.
+- Mínimo de 3 participantes y máximo de 100, confirmado para la primera versión.
 - Una misma dirección no puede representar a dos personas dentro del mismo sorteo. Definir una política de normalización sin eliminar puntos o sufijos de proveedores de correo.
 - Cada persona regala una vez y recibe una vez. Nadie se regala a sí mismo.
 - No se exige un único ciclo que incluya a todo el grupo; se respetan las parejas recíprocas permitidas.
-- El presupuesto es obligatorio y orientativo, sin comprobar ni limitar el gasto real. Propuesta: importe positivo en la moneda del grupo; queda por decidir qué monedas se admiten. Se propone permitir borradores incompletos, pero exigir un importe válido antes de sortear.
+- El presupuesto es obligatorio y orientativo en EUR, sin comprobar ni limitar el gasto real. Los borradores pueden estar incompletos, pero es necesario un importe positivo antes de sortear.
 - Tras sortear, participantes, correos y excepciones quedan bloqueados; las listas de deseos siguen siendo editables. Para repetir se crea un nuevo sorteo independiente, como se describe arriba.
 - Un error de correo no permite volver a sortear. El reenvío conserva el destinatario original.
 - El organizador puede gestionar contactos y estados de entrega, pero no abrir enlaces privados de otros participantes.

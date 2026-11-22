@@ -19,6 +19,7 @@ import { colors as c, fonts as f } from "../../theme";
 import { useStore } from "../../data/store";
 import { dateLabel, money, validateDraw } from "../../domain/draw";
 import { DraftError } from "../../domain/draft";
+import { RunDrawCard } from "../../components/RunDrawCard";
 export default function DrawScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { draws, ready, copy, mode, saving } = useStore();
@@ -65,7 +66,9 @@ export default function DrawScreen() {
         </Button>
         <Chip tone={draw.status === "drawn" ? "green" : "orange"}>
           {draw.status === "drawn"
-            ? "Sorteado · ejemplo"
+            ? mode === "account"
+              ? "Sorteado en tu cuenta"
+              : "Sorteado · ejemplo"
             : mode === "account"
               ? "Borrador en tu cuenta"
               : "Borrador local"}
@@ -99,7 +102,7 @@ export default function DrawScreen() {
               });
           }}
         >
-          {saving ? "Copiando…" : "Copiar sorteo"}
+          Copiar sorteo
         </Button>
       </View>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
@@ -143,7 +146,42 @@ export default function DrawScreen() {
         }}
       >
         <View style={{ flex: 1, width: wide ? undefined : "100%", gap: 20 }}>
-          {draw.status === "drawn" && recipient ? (
+          {mode === "account" ? (
+            draw.status === "drawn" ? (
+              <Card
+                style={{ backgroundColor: "#FFF0C8", borderColor: "#F5DE9B" }}
+              >
+                <Chip tone="green">Sorteo realizado</Chip>
+                <Heading size={27}>La sorpresa ya está preparada</Heading>
+                <Body muted>
+                  Los resultados están guardados. Los participantes y las
+                  excepciones quedan bloqueados; puedes crear una copia para
+                  organizar otro sorteo.
+                </Body>
+                {me ? (
+                  <Button
+                    icon="gift"
+                    onPress={() => router.push(`/resultado/${draw.id}`)}
+                  >
+                    Ver mi resultado
+                  </Button>
+                ) : (
+                  <Body muted>
+                    No figuras como participante con el correo de esta cuenta.
+                    Ser organizador no permite consultar resultados ajenos.
+                  </Body>
+                )}
+                <Notice>
+                  Todavía no se han enviado correos. En esta etapa cada
+                  participante necesita acceder con la cuenta de Google del
+                  correo añadido al grupo. El acceso de invitados por correo
+                  llegará más adelante.
+                </Notice>
+              </Card>
+            ) : (
+              <RunDrawCard draw={draw} />
+            )
+          ) : draw.status === "drawn" && recipient ? (
             <Card
               style={{
                 backgroundColor: "#FFF0C8",
@@ -279,7 +317,7 @@ export default function DrawScreen() {
             </View>
             <Body muted style={{ fontSize: 13 }}>
               {mode === "account"
-                ? "Solo el organizador puede gestionar este borrador. El acceso de invitados y los resultados se habilitarán más adelante."
+                ? "Esta es la vista de organización. Los resultados no forman parte de la lista de participantes."
                 : "Vista del organizador de ejemplo. La comprobación de identidad de los invitados todavía no está conectada."}
             </Body>
           </View>
@@ -288,7 +326,7 @@ export default function DrawScreen() {
       {notice && <Notice>{notice}</Notice>}
       <Notice>
         {mode === "account"
-          ? "Este borrador está guardado en tu cuenta. Copiar crea otro independiente, sin deseos, resultados ni accesos heredados. Todavía no se envían invitaciones."
+          ? "La configuración está guardada en tu cuenta. Copiar crea otro sorteo independiente, sin deseos, resultados ni accesos heredados. Todavía no se envían invitaciones."
           : "Los cambios de la demo se guardan solo en este dispositivo. Copiar crea un borrador nuevo y no envía invitaciones ni reutiliza resultados."}
       </Notice>
     </Shell>

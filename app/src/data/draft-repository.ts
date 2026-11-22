@@ -12,6 +12,22 @@ function storageError(error: unknown): DraftError {
     error && typeof error === "object" && "code" in error
       ? error.code
       : undefined;
+  const message =
+    error && typeof error === "object" && "message" in error
+      ? error.message
+      : undefined;
+  if (code === "22023" && message === "DRAW_IMPOSSIBLE")
+    return new DraftError(
+      "Con estas excepciones no existe una combinación válida. Revisa las reglas del grupo antes de volver a intentarlo.",
+    );
+  if (code === "22023" && message === "DRAW_LOCKED")
+    return new DraftError(
+      "Este sorteo ya está realizado y no se puede editar. Puedes copiarlo para preparar otro.",
+    );
+  if (code === "22023" && message === "DRAW_INCOMPLETE")
+    return new DraftError(
+      "Completa el título, el presupuesto y al menos tres participantes antes de sortear.",
+    );
   if (code === "40001")
     return new DraftError(
       "Este borrador ha cambiado en otra pestaña o dispositivo. Actualiza tus sorteos y vuelve a abrirlo antes de guardar.",
@@ -43,13 +59,14 @@ export function createDraftRepository(
   newId: () => string,
 ) {
   const retries = new Map<string, { fingerprint: string; requestId: string }>();
-  return {
+  const runRequests = new Map<string, string>();
+  const repository = {
     async list(): Promise<Draw[]> {
       try {
         const { data, error } = await client
           .from("draws")
           .select(
-            "id,title,description,budget_cents,currency,exchange_date,status,color,version,draw_participants:draw_participants!draw_participants_draw_id_fkey(id,name,email,position),draw_exclusions:draw_exclusions!draw_exclusions_draw_id_fkey(giver_id,recipient_id)",
+            "id,title,description,budget_cents,currency,exchange_date,status,color,version,drawn_at,draw_participants:draw_participants!draw_participants_draw_id_fkey(id,name,email,position),draw_exclusions:draw_exclusions!draw_exclusions_draw_id_fkey(giver_id,recipient_id)",
           )
           .eq("owner_id", owner.id)
           .order("updated_at", { ascending: false });
@@ -95,5 +112,42 @@ export function createDraftRepository(
         throw error instanceof DraftError ? error : storageError(error);
       }
     },
+    async generate(draw: Draw): Promise<Draw> {
+      if (!draw.version || !Number.isSafeInteger(draw.version))
+        throw new DraftError(
+          "Actualiza tus sorteos antes de realizar el sorteo.",
+        );
+      let requestId = runRequests.get(draw.id);
+      if (!requestId) {
+        requestId = newId();
+        runRequests.set(draw.id, requestId);
+      }
+      try {
+        const { data, error } = await client.rpc("generate_draw", {
+          p_draw_id: draw.id,
+          p_owner_id: owner.id,
+          p_expected_version: draw.version,
+          p_request_id: requestId,
+        });
+        if (error) throw storageError(error);
+        if (
+          !data ||
+          data.id !== draw.id ||
+          data.status !== "drawn" ||
+          !Number.isSafeInteger(data.version) ||
+          data.version < 2
+        )
+          throw storageError(null);
+        // Recuperar metadatos actuales: un reintento puede partir de una vista
+        // antigua. No atribuir la version nueva a datos antiguos del formulario.
+        const current = (await repository.list()).find((d) => d.id === draw.id);
+        if (!current || current.status !== "drawn") throw storageError(null);
+        runRequests.delete(draw.id);
+        return current;
+      } catch (error) {
+        throw error instanceof DraftError ? error : storageError(error);
+      }
+    },
   };
+  return repository;
 }

@@ -17,7 +17,7 @@ Fecha inicial: 21 de noviembre de 2026.
 | D09 | Mantener documentación y añadir futuras normas de trabajo a AGENTS.md |
 | D10 | Existen cuentas Supabase y Vercel; cuentas de tiendas y dominio se harán más adelante |
 | D11 | El nombre de la aplicación es «Mi amigo invisible» |
-| D12 | El presupuesto es obligatorio y orientativo; las monedas siguen pendientes |
+| D12 | El presupuesto es obligatorio y orientativo; EUR para la primera versión, confirmado posteriormente en D30 |
 | D13 | La lista de deseos es el extra de pago elegido |
 | D14 | Repetir copia la configuración y participantes a un sorteo nuevo e independiente |
 | D15 | El estilo principal sirve para todo el año |
@@ -34,6 +34,8 @@ Fecha inicial: 21 de noviembre de 2026.
 | D26 | El usuario confirma el despliegue web y un inicio de sesión correcto con Google; no implica validación completa de sesiones ni persistencia de sorteos |
 | D27 | Continuar con la implementación; el usuario elige conectar la integración de Supabase para aplicar la migración de borradores |
 | D28 | El usuario acepta continuar con scripts sin depender de la integración de gestión y confirma haber ejecutado la migración de borradores en Supabase |
+| D29 | El usuario confirma que puede guardar el borrador en la web tras corregir la consulta ambigua `PGRST201`; las demás comprobaciones remotas siguen pendientes |
+| D30 | Primera versión con EUR, fecha del intercambio opcional y entre 3 y 100 participantes |
 
 ## Propuestas técnicas
 
@@ -44,7 +46,6 @@ Fecha inicial: 21 de noviembre de 2026.
 | P03 | Añadir Sign in with Apple en iOS | Configuración de credenciales y revisión del login |
 | P04 | Proveedor transaccional y bandeja persistente para correos | Elegir proveedor, dominio y política de reintentos |
 | P05 | Una ejecución por entidad; la copia confirmada comienza como borrador sin resultados ni accesos heredados | Definir copia de deseos y cancelación |
-| P06 | De 3 a 100 participantes inicialmente | Confirmar límites; las parejas recíprocas ya están permitidas |
 | P07 | Verificación por correo y sesión limitada para invitados | Prueba de acceso y recuperación |
 | P08 | Evaluar RevenueCat | Validar compra permanente de listas de deseos, precio y restauración |
 
@@ -52,7 +53,7 @@ Estas propuestas permiten avanzar en diseño y pruebas; no representan decisione
 
 ## Supuestos del prototipo
 
-La primera base en `app/` usa euros, fecha opcional y listas de deseos vacías al copiar un sorteo para permitir explorar el flujo. El usuario ha indicado continuar, pero no ha respondido esas tres preguntas; siguen pendientes y no se consideran requisitos confirmados. Los límites provisionales son de 3 a 100 participantes y hasta 3 fotos de 5 MB por deseo.
+EUR, fecha opcional y entre 3 y 100 participantes fueron supuestos iniciales y ya están confirmados por el usuario en D30. Las listas de deseos vacías al copiar siguen siendo el comportamiento provisional; queda por confirmar si se copiarán deseos. El límite de hasta 3 fotos de 5 MB por deseo también sigue siendo provisional.
 
 ## Preguntas pendientes
 
@@ -60,8 +61,6 @@ La primera base en `app/` usa euros, fecha opcional y listas de deseos vacías a
 | --- | --- | --- |
 | Antes del diseño definitivo | ¿Logotipo concreto de la marca? | Nombre confirmado y estilo para todo el año; regalos y sobres como propuesta |
 | Antes de cerrar el catálogo | ¿Precio de la compra permanente de listas de deseos? | Tipo de compra y presencia en el primer lanzamiento confirmados; concretar precio |
-| Antes de cerrar el formulario | ¿Solo EUR o varias monedas? ¿Fecha del intercambio? | Presupuesto obligatorio y orientativo confirmado; EUR y fecha opcional como propuesta |
-| Antes del algoritmo final | ¿Se aceptan mínimo 3 y máximo inicial 100? | Sí, como propuesta técnica revisable |
 | Antes de gestionar incidencias | ¿Cómo cancelar o corregir un correo después del sorteo? | Repetición como entidad nueva confirmada; recuperación verificada sin reasignar como propuesta |
 | Antes de cerrar la copia | ¿Se copian también las listas de deseos? | No copiar contenido ni fotos de los participantes por defecto |
 | Antes de habilitar imágenes | ¿Límites de fotos y avisos al cambiar deseos? | Fijar cuotas de tamaño y cantidad; avisos aún no definidos |
@@ -71,6 +70,8 @@ La primera base en `app/` usa euros, fecha opcional y listas de deseos vacías a
 
 ## Historial
 
+- 22 de noviembre de 2026: el usuario confirma EUR, fecha opcional y entre 3 y 100 participantes. Implementadas en local generación transaccional y consulta privada del resultado mediante correo confirmado de Auth. La segunda migración crea tablas privadas y bloquea las ediciones después de sortear. No se ha aplicado al proyecto remoto ni publicado esta entrega. Correos y acceso de invitados sin cuenta continúan pendientes; la interfaz explica esa limitación antes de confirmar el sorteo.
+- 22 de noviembre de 2026: el usuario confirma que ya puede guardar el borrador en la web tras la corrección de `PGRST201`. Registrado el guardado autenticado como prueba realizada por el usuario, sin atribuirle comprobaciones de recuperación tras recarga, edición, copia, aislamiento ni concurrencia que aún no ha confirmado.
 - 22 de noviembre de 2026: el usuario comunica `PGRST201` en la carga autenticada de «Mis sorteos». Corregida la consulta del cliente con claves foráneas directas y alias para participantes y excepciones, sin cambiar el SQL ni los permisos. Reproducido el error y comprobada la resolución de la consulta corregida en la API real sin sesión y sin leer filas; añadida cobertura de regresión al transporte simulado. Pendiente desplegar la corrección y confirmar la carga con la cuenta del usuario.
 - 22 de noviembre de 2026: el usuario opta por los scripts y confirma ejecutar la migración en Supabase. Las consultas remotas con Publishable key y sin sesión a las tres tablas devuelven HTTP 401 y `42501`; no se han leído filas. Añadido un verificador SQL de solo lectura y probado en PostgreSQL embebido antes y después de la migración y con RLS deshabilitado. Pendientes el despliegue del código local, la ejecución remota del verificador y las pruebas autenticadas entre cuentas.
 - 22 de noviembre de 2026: implementados en local los borradores privados de cuenta, guardado transaccional con versión y reintentos, copia independiente y separación de la demo. Preparada la primera migración y comprobadas sus políticas en PostgreSQL embebido con usuarios ficticios. El usuario elige conectar Supabase para aplicarla; la integración todavía no figura instalada/conectada. No se ha aplicado SQL al proyecto remoto ni publicado esta entrega.

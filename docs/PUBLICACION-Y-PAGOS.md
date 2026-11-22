@@ -14,7 +14,7 @@ El usuario ha creado los proyectos Supabase y Vercel y ha proporcionado sus URL 
 
 ## Siguiente hito de integración
 
-El despliegue y el inicio de sesión con Google ya están confirmados por el usuario. El usuario también confirma que ha ejecutado la migración de [borradores privados](BORRADORES.md) desde el panel; la API reconoce las tablas y rechaza consultas anónimas. Falta publicar el código de esta entrega y verificar guardado, recarga, copia, aislamiento y concurrencia en el servicio real, además de las pruebas de sesión pendientes. La siguiente lista conserva el procedimiento de preparación y validación, no una lista íntegra de tareas pendientes.
+El usuario confirma el despliegue, el acceso con Google, la migración y el guardado web de un [borrador privado](BORRADORES.md) tras corregir `PGRST201`. La API reconoce las tablas y rechaza consultas anónimas. Recuperación tras recarga, edición, copia, aislamiento y concurrencia remota, además de las pruebas de sesión restantes, siguen pendientes. La siguiente lista conserva el procedimiento de preparación y validación, no una lista íntegra de tareas pendientes.
 
 1. Mantener `app/` como raíz y `dist/` como salida. La versión anterior responde en la URL estable y en `/acceso`; verificar también `/auth/callback` tras publicar los cambios.
 2. Añadir `EXPO_PUBLIC_SUPABASE_URL` y `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` al entorno de Vercel correspondiente. La configuración local ya está preparada y el código lee estas variables. Nunca usar una clave secreta, `service_role` o contraseña de base de datos en ellas.
@@ -23,7 +23,7 @@ El despliegue y el inicio de sesión con Google ya están confirmados por el usu
 5. Publicar el código preparado y probar acceso correcto, cancelación, error, recarga y cierre con Google real. La verificación web no sustituye la prueba de enlaces y sesiones en Android e iOS.
 6. Aplicar la migración y desplegar los borradores por organizador ya implementados. Comprobar con dos cuentas que ninguna puede acceder a los datos de la otra mediante la API real. Mantener los datos ficticios separados de las cuentas reales.
 
-Tras este hito, continuar con participantes, excepciones, generación en servidor, acceso verificado de invitados y correos. Las listas de deseos y la compra permanente siguen siendo obligatorias para el primer lanzamiento público.
+La siguiente entrega de [generación y resultado propio](SORTEOS.md) ya está preparada en el código local. Aplicar solo la segunda migración, comprobar sus permisos y desplegar para validar generación, bloqueo de edición y consulta propia con correo confirmado de Auth. Después conectar acceso verificado de invitados sin cuenta y correos. Las listas de deseos y la compra permanente siguen siendo obligatorias para el primer lanzamiento público.
 
 ## Preparación para las tiendas
 

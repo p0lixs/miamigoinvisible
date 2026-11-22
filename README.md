@@ -8,9 +8,9 @@ El presupuesto es obligatorio y orientativo, y el estilo visual sirve para todo 
 
 ## Estado actual
 
-Base ejecutable, a 22 de noviembre de 2026. El usuario confirma el despliegue en Vercel, un inicio de sesión correcto con Google y la ejecución de la migración de borradores en Supabase. La API reconoce las tablas y rechaza consultas anónimas. El código local de los borradores privados está preparado; falta publicar esta entrega y validar el guardado y el aislamiento con sesiones reales. La demo local queda separada de la cuenta. La permanencia de la sesión al recargar, su cierre y los casos de error con el proveedor real siguen pendientes de confirmar. Todavía no hay generación real de sorteos, correos ni compras conectadas.
+Base ejecutable, a 22 de noviembre de 2026. El usuario confirma el despliegue en Vercel, el inicio de sesión con Google, la migración de borradores en Supabase y el guardado de un borrador desde la web tras corregir `PGRST201`. La API reconoce las tablas y rechaza consultas anónimas. La recuperación tras recarga, edición, copia, aislamiento entre cuentas y concurrencia remota siguen pendientes de confirmar. La demo local queda separada de la cuenta. El cierre y los errores de sesión con el proveedor real también siguen pendientes. Todavía no hay generación real de sorteos, correos ni compras conectadas.
 
-La base utiliza React Native, Expo Router y TypeScript. Se mantiene la propuesta de Supabase para autenticación, datos y operaciones del servidor, y Vercel para alojar la web. La propuesta y sus alternativas están en la arquitectura.
+La siguiente entrega ya está preparada en local: generación transaccional del sorteo, bloqueo de edición y consulta del destinatario propio mediante el correo confirmado de Auth. Requiere aplicar la segunda migración y publicar el código. Los correos y los invitados sin cuenta siguen pendientes. La base utiliza React Native, Expo Router y TypeScript, Supabase para autenticación y datos, y Vercel para la web.
 
 ## Ejecutar el prototipo
 
@@ -37,6 +37,7 @@ Abrir la dirección local que muestre Expo. Las dependencias ya están instalada
 | [Publicación y pagos](docs/PUBLICACION-Y-PAGOS.md) | Tiendas, infraestructura y monetización |
 | [Conexión de servicios](docs/CONFIGURACION-SERVICIOS.md) | Variables, Google OAuth, retornos y comprobación de sesiones |
 | [Borradores privados](docs/BORRADORES.md) | Guardado en Supabase, permisos, versiones, reintentos y migración |
+| [Generación y resultado propio](docs/SORTEOS.md) | Segunda migración, algoritmo, privacidad, confirmación y despliegue |
 | [Plan de desarrollo](docs/PLAN.md) | Fases y validaciones |
 | [Decisiones](docs/DECISIONES.md) | Acuerdos, propuestas y preguntas pendientes |
 | [Normas de trabajo](AGENTS.md) | Instrucciones persistentes para trabajar en el proyecto |
@@ -44,6 +45,6 @@ Abrir la dirección local que muestre Expo. Las dependencias ya están instalada
 
 ## Próximo hito
 
-Publicar el código de [borradores privados](docs/BORRADORES.md) en Vercel y validar guardado, recarga, copia, aislamiento entre dos cuentas y cambios concurrentes mediante la API real. La migración ya está ejecutada según confirma el usuario; el verificador SQL de solo lectura está disponible para revisar el catálogo y los permisos desde el panel. Completar también la [validación de sesiones](docs/CONFIGURACION-SERVICIOS.md#validación) antes de conectar sorteos y resultados.
+Aplicar la [segunda migración](docs/SORTEOS.md) y desplegar la generación y el resultado propio. Probar con cuentas y participantes ficticios las restricciones, el bloqueo de edición, los reintentos y el aislamiento de resultados. Completar también las pruebas remotas de borradores y de sesiones que siguen pendientes. El guardado web ya está confirmado por el usuario.
 
-Moneda, fecha del intercambio y copia de deseos siguen pendientes; el prototipo utiliza provisionalmente euros, fecha opcional y listas vacías al copiar. Las cuentas de las tiendas y el dominio se configurarán en una fase posterior.
+EUR, fecha opcional y entre 3 y 100 participantes están confirmados para la primera versión. La copia de deseos sigue pendiente de decidir; actualmente las listas se dejan vacías al copiar. Las cuentas de las tiendas y el dominio se configurarán en una fase posterior.

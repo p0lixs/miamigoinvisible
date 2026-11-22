@@ -1,6 +1,8 @@
 # Mi amigo invisible
 
-Aplicación universal con Expo Router y TypeScript. Incluye una demo local sin sesión y borradores privados de cuenta mediante Supabase. El usuario confirma que ha ejecutado la migración; la API reconoce las tablas y rechaza consultas anónimas. Falta publicar el código de esta entrega y probar el guardado y el aislamiento con sesiones reales. El usuario confirma el inicio de sesión con Google en la web anterior; recarga, cierre y errores con el proveedor real siguen pendientes de confirmar. No genera sorteos reales, envía correos ni procesa compras.
+Aplicación universal con Expo Router y TypeScript. Incluye una demo local sin sesión y borradores privados de cuenta mediante Supabase. El usuario confirma la migración, el acceso con Google y el guardado web de un borrador tras corregir `PGRST201`. La API reconoce las tablas y rechaza consultas anónimas. Recuperación tras recarga, edición, copia, aislamiento y concurrencia remota, así como cierre y errores de sesión, siguen pendientes de confirmar. La versión publicada hasta ahora no genera sorteos reales ni envía correos o procesa compras.
+
+La nueva entrega incorpora generación en el servidor, bloqueo tras sortear y consulta del resultado propio mediante el correo confirmado de Auth. Requiere ejecutar solo la segunda migración y publicar este código. La interfaz explica que todavía no se envían correos ni existe acceso para invitados sin cuenta. Consultar [Generación y resultado propio](../docs/SORTEOS.md).
 
 ## Desarrollo
 

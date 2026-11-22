@@ -104,7 +104,11 @@ export function readDraftRow(value: unknown, email: string): Draw {
     typeof row.description !== "string" ||
     (row.budget_cents !== null && typeof row.budget_cents !== "number") ||
     (row.exchange_date !== null && typeof row.exchange_date !== "string") ||
-    row.status !== "draft" ||
+    (row.status !== "draft" && row.status !== "drawn") ||
+    (row.status === "drawn" &&
+      (typeof row.drawn_at !== "string" ||
+        Number.isNaN(Date.parse(row.drawn_at)))) ||
+    (row.status === "draft" && row.drawn_at != null) ||
     row.currency !== "EUR" ||
     typeof row.version !== "number" ||
     !Number.isSafeInteger(row.version) ||
@@ -134,7 +138,11 @@ export function readDraftRow(value: unknown, email: string): Draw {
       exclusions,
       wishlists: {},
     });
-    return cloudDraft(payload, row.id, row.version, email);
+    return {
+      ...cloudDraft(payload, row.id, row.version, email),
+      status: row.status,
+      ...(row.status === "drawn" ? { drawnAt: row.drawn_at as string } : {}),
+    };
   } catch {
     return fail();
   }

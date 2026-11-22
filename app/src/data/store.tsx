@@ -30,6 +30,7 @@ type Store = {
   saving: boolean;
   reload: () => Promise<void>;
   save: (draw: Draw) => Promise<Draw>;
+  generate: (draw: Draw) => Promise<Draw>;
   copy: (draw: Draw) => Promise<string>;
   saveWishes: (drawId: string, personId: string, wishes: Wish[]) => void;
   photos: Record<string, string[]>;
@@ -129,6 +130,11 @@ function DemoStoreProvider({ children }: { children: ReactNode }) {
         saving: false,
         reload: async () => {},
         save,
+        generate: async () => {
+          throw new DraftError(
+            "La demo no realiza sorteos reales. Entra con tu cuenta para organizar uno.",
+          );
+        },
         copy,
         saveWishes,
         photos,
@@ -213,7 +219,7 @@ function CloudStoreProvider({
       active.current = false;
     };
   }, [load]);
-  const save = async (draw: Draw) => {
+  const write = async (operation: () => Promise<Draw>) => {
     if (!active.current || pending.current || !ready || loadError)
       throw new DraftError("Espera a que termine la carga antes de guardar.");
     pending.current = true;
@@ -221,7 +227,7 @@ function CloudStoreProvider({
     // Invalida lecturas anteriores para que no puedan reemplazar un guardado.
     revision.current++;
     try {
-      const saved = await repository.save(draw);
+      const saved = await operation();
       if (!active.current)
         throw new DraftError(
           "La sesión ha cambiado. Vuelve a abrir tus sorteos.",
@@ -233,6 +239,7 @@ function CloudStoreProvider({
       if (active.current) setSaving(false);
     }
   };
+  const save = (draw: Draw) => write(() => repository.save(draw));
   return (
     <Context.Provider
       value={{
@@ -245,6 +252,7 @@ function CloudStoreProvider({
         saving,
         reload,
         save,
+        generate: (draw) => write(() => repository.generate(draw)),
         copy: async (draw) => {
           const key = `${draw.id}:${draw.version ?? 0}`;
           let duplicate = copies.current.get(key);

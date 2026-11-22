@@ -2,7 +2,7 @@
 
 ## Modelo conceptual propuesto
 
-Este modelo define responsabilidades y restricciones del producto completo. La primera [migración de borradores](BORRADORES.md) implementa `draws`, `draw_participants` y `draw_exclusions`, con RLS y guardado transaccional. El usuario confirma que la ha ejecutado en Supabase; la API reconoce las tablas y rechaza consultas anónimas. La comprobación completa de permisos remotos y del aislamiento entre cuentas sigue pendiente. El resto del modelo continúa propuesto.
+Este modelo define responsabilidades y restricciones del producto completo. La primera [migración de borradores](BORRADORES.md) implementa `draws`, `draw_participants` y `draw_exclusions`, con RLS y guardado transaccional; el usuario confirma que la ha ejecutado. La segunda migración implementa `draw_private.runs` y `draw_private.assignments`, generación atómica y consulta propia mediante correo confirmado de Auth. Esta segunda entrega está probada localmente y pendiente de aplicar y desplegar. La comprobación completa de permisos remotos y del aislamiento entre cuentas sigue pendiente. El resto del modelo continúa propuesto. Consultar [Generación y resultado propio](SORTEOS.md).
 
 | Entidad | Datos principales | Restricciones |
 | --- | --- | --- |

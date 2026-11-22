@@ -1,6 +1,6 @@
 # Conexión con Supabase y Vercel
 
-El usuario confirma, el 22 de noviembre de 2026, que la web se ha desplegado en Vercel y ha podido iniciar sesión con Google mediante Supabase. Quedan por confirmar la permanencia de la sesión al recargar, su cierre y los casos de error con el proveedor real. La migración de [borradores privados de cuenta](BORRADORES.md) ya está ejecutada según confirma el usuario; falta publicar el código de esta entrega. Iniciar sesión no importa los datos de la demo.
+El usuario confirma, el 22 de noviembre de 2026, el despliegue web, el acceso con Google, la migración y el guardado de un [borrador privado de cuenta](BORRADORES.md) tras corregir `PGRST201`. La recuperación del borrador tras recargar, edición, copia, aislamiento entre cuentas y concurrencia remota siguen pendientes, al igual que el cierre y los errores de sesión. Iniciar sesión no importa los datos de la demo.
 
 ## Servicios confirmados
 
@@ -73,8 +73,8 @@ Ejecutar `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test` y `npm.cmd 
 
 Las pruebas automatizadas cubren configuración pública, validación y errores del retorno, rechazo de retornos de otros orígenes y de tokens implícitos, canje PKCE único, persistencia y cierre de sesión con el SDK real y respuestas HTTP simuladas. No crean usuarios ni sustituyen una prueba real con Google.
 
-TypeScript, lint, las 18 pruebas y la exportación web forman parte de la verificación de esta entrega. Se han inspeccionado capturas locales de acceso a 390 y 1440 píxeles, del retorno de cancelación y de los nuevos flujos con sesiones y respuestas ficticias. El usuario confirma un acceso real con Google en la web desplegada; el agente no ha inspeccionado su sesión ni sus datos personales.
+TypeScript, lint, las 29 pruebas actuales y la exportación web forman parte de la verificación. Incluyen las migraciones de borradores y generación, el resultado propio y sus permisos. Se han inspeccionado capturas locales con sesiones y respuestas ficticias. El usuario confirma un acceso real con Google en la web desplegada; el agente no ha inspeccionado su sesión ni sus datos personales.
 
 El inicio de sesión ya está confirmado por el usuario. Para completar la validación: comprobar la identidad en `/cuenta`, recargar, abrir otra pestaña del mismo origen y cerrar sesión. Probar también cancelar en Google, denegar el acceso y volver a un enlace caducado. Tras publicar la nueva entrega, la cuenta debe mostrar solo sus borradores; los ejemplos continúan en la demo sin sesión.
 
-El usuario confirma que ha ejecutado la migración mediante el panel. El siguiente hito es publicar esta entrega y verificar mediante la API real que dos cuentas distintas no acceden a los datos de la otra. La consulta sin sesión a las tres tablas ya devuelve acceso denegado. Hay un verificador SQL de solo lectura para revisar el catálogo y los permisos desde el panel, sin necesitar la integración de gestión. Consultar [Borradores privados](BORRADORES.md).
+El usuario confirma el guardado web. El siguiente hito es completar las pruebas de recuperación, edición y copia y verificar mediante la API real que dos cuentas distintas no acceden a los datos de la otra. La consulta sin sesión a las tres tablas ya devuelve acceso denegado. Hay un verificador SQL de solo lectura para revisar el catálogo y los permisos desde el panel, sin necesitar la integración de gestión. Consultar [Borradores privados](BORRADORES.md).

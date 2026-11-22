@@ -93,7 +93,7 @@ export function Shell({ children }: { children: ReactNode }) {
         >
           {mode === "demo"
             ? "DEMO · Sorteos y deseos locales de ejemplo · Sin envíos ni cobros"
-            : "TU CUENTA · Borradores privados · Sorteos y envíos aún no disponibles"}
+            : "TU CUENTA · Sorteos privados · Correos aún no disponibles"}
         </Text>
       </View>
       <View style={{ flex: 1, flexDirection: "row" }}>

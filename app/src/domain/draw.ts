@@ -4,6 +4,7 @@ export type Wish = { id: string; title: string; note: string; link: string };
 export type Draw = {
   id: string;
   version?: number;
+  drawnAt?: string;
   title: string;
   description: string;
   budgetCents: number | null;

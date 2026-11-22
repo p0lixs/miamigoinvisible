@@ -139,16 +139,28 @@ test("lectura: consulta limitada al propietario, sin comodines, orden estable y 
   assert.deepEqual(result[0].wishlists, {});
   assert.equal(result[0].demoRecipientId, undefined);
   assert.throws(() => readDraftRow({ ...row, status: "drawn" }, owner.email));
+  const completed = readDraftRow(
+    { ...row, status: "drawn", drawn_at: "2026-11-22T10:00:00Z" },
+    owner.email,
+  );
+  assert.equal(completed.status, "drawn");
+  assert.equal(completed.demoRecipientId, undefined);
 });
 
 test("copiar un borrador crea identidades nuevas, versión inicial y ninguna credencial o lista", () => {
-  const source = { ...fixture(), version: 9 };
+  const source = {
+    ...fixture(),
+    version: 9,
+    status: "drawn" as const,
+    drawnAt: "2026-11-22T10:00:00Z",
+  };
   const copy = duplicateDraw(source, randomUUID);
   assert.notEqual(copy.id, source.id);
   assert.notEqual(copy.participants[0].id, source.participants[0].id);
   assert.equal(copy.version, undefined);
   assert.deepEqual(copy.wishlists, {});
   assert.equal(copy.demoRecipientId, undefined);
+  assert.equal(copy.drawnAt, undefined);
   assert.doesNotThrow(() => draftPayload(copy));
   const longCopy = duplicateDraw(
     { ...source, title: "🎁".repeat(50) },

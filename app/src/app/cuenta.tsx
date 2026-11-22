@@ -84,8 +84,8 @@ export default function Account() {
       <Notice>
         El borrado de cuenta y la restauración de compras se habilitarán al
         completar esos servicios. Los borradores de tu cuenta se guardan por
-        separado de los ejemplos locales. La generación de sorteos y las listas
-        de deseos reales aún no están disponibles.
+        separado de los ejemplos locales. Los correos, el acceso de invitados y
+        las listas de deseos reales aún no están disponibles.
       </Notice>
     </Shell>
   );
