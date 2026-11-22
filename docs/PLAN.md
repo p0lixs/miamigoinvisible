@@ -1,0 +1,46 @@
+# Plan de desarrollo
+
+## Fase 1 Definición
+
+Completar las decisiones de producto e identidad. Están confirmados el presupuesto obligatorio y orientativo, las parejas recíprocas, el estilo para todo el año, la copia como entidad nueva y las listas de deseos mediante compra permanente del organizador desde el primer lanzamiento. Cada lista es privada para su autor y quien deba regalarle. Concretar moneda, fecha del intercambio, límite de participantes, recuperación de correo, copia de deseos y precio. Resultado: requisitos actualizados y recorrido de pantallas.
+
+## Fase 2 Diseño y prueba técnica
+
+Preparar un prototipo de bienvenida, creación, excepciones y resultado con la dirección colorida para todo el año; incluir copia de sorteos y pantallas de deseos y fotos. Validar Expo en Android, iOS y web, Google, Apple, sesiones de invitado y enlaces profundos. Verificar que una web exportada funciona en Vercel con rutas abiertas directamente.
+
+Resultado: una dirección visual revisable y evidencia de que autenticación y distribución son compatibles. La evaluación de iOS requerirá credenciales y acceso a dispositivos o servicios adecuados cuando corresponda.
+
+## Fase 3 Dominio y base de datos
+
+Crear migraciones, permisos, validación y algoritmo. Implementar confirmación transaccional, bloqueo por versión e idempotencia.
+
+Validar propiedades: cada persona da y recibe una vez, sin autoasignaciones ni exclusiones; casos imposibles detectados; rechazo de datos de grupos distintos; doble envío concurrente y cambios durante la generación. Probar privacidad entre dos organizadores y entre participantes mediante la API.
+
+## Fase 4 Acceso y correos
+
+Implementar invitados sin registro obligatorio, códigos, verificación de identidad, enlace individual, invitaciones previas para rellenar deseos, bandeja de tareas, worker y webhooks. Usar primero un entorno de correo de pruebas.
+
+Validar caídas antes y después de guardar el sorteo, aceptación de correo con respuesta perdida, tareas repetidas, expiración de accesos, escáneres de enlaces y límites de reenvío. Nunca volver a sortear para resolver un fallo de entrega.
+
+## Fase 5 Núcleo gratuito
+
+Integrar creación, borradores, excepciones, gestión de envíos y consulta privada. Completar estados vacíos, carga y errores. Revisar accesibilidad, teclado, nombres largos, conectividad intermitente y comportamiento en dispositivos reales.
+
+Resultado: recorrido completo del núcleo gratuito con usuarios de prueba desde la creación hasta la recepción del resultado. La primera publicación requiere completar también las listas y las compras de la fase siguiente.
+
+## Fase 6 Listas de deseos y compra permanente
+
+Incorporar las listas de deseos y su compra permanente antes del primer lanzamiento público. Implementar texto, enlaces, fotografías privadas y edición antes y después del sorteo, junto con restauración, validación, reembolso y derechos compartidos entre plataformas. Probar en los entornos de compra de las tiendas y verificar el aislamiento de imágenes y listas entre grupos, la copia sin accesos heredados y que editar deseos no cambia los resultados. Comprobar que solo el autor y quien deba regalarle leen la lista, incluido el caso de un organizador que también participa.
+
+## Fase 7 Publicación
+
+Crear cuentas de desarrollador, configurar dominio y servicios de producción. Completar privacidad, borrado, soporte, fichas y capturas. Ejecutar TestFlight y pruebas de Google Play aplicables; corregir incidencias y enviar a revisión.
+
+No fijar una fecha pública antes de conocer el alcance de los pagos y los plazos de pruebas y revisión.
+
+## Situación actual
+
+- Completado: análisis inicial, documentación, copia local de Taste Skill y primera base de aplicación en `app/` con pantallas y almacenamiento de ejemplo.
+- Verificado: TypeScript, lint, cuatro pruebas del dominio, exportación JavaScript para web, Android e iOS, rutas HTTP y versiones compatibles con Expo.
+- Pendiente: revisión visual, pruebas en dispositivos, decisiones detalladas y prueba de autenticación real.
+- No iniciado: migraciones Supabase, integraciones de autenticación, generación y correos reales, compras y despliegues.

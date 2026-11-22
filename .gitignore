@@ -1,0 +1,20 @@
+# Credenciales y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencias y compilación
+node_modules/
+.expo/
+dist/
+web-build/
+coverage/
+
+# Herramientas locales
+.local/
+.taste-skill/
+*.log
+.DS_Store
+Thumbs.db

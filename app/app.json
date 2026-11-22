@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Mi amigo invisible",
+    "slug": "mi-amigo-invisible",
+    "scheme": "miamigoinvisible",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Elige una fotografía para tu lista de deseos.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}

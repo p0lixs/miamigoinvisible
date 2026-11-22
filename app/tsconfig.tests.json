@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "types": ["node"], "allowImportingTsExtensions": true },
+  "include": ["tests/**/*.mts", "src/domain/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
